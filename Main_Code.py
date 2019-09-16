@@ -1,16 +1,19 @@
+#---------import modules---------
 from tkinter import *
 import time
 import math
 import pygame
-
+#---------init the window---------
 root = Tk()
 root.geometry("460x665")
 root.resizable(False, False)
 root.title("Computer Use Time")
 root.iconbitmap('icon.ico')
+#---------set the function to pass---------
 def passss():
     pass
 root.bind("<Alt-F4>", passss)
+#---------setup the countdown and lock window---------
 def Start():
     Start_Win = Toplevel(root)
     Start_Win.iconbitmap('icon.ico')
@@ -21,6 +24,7 @@ def Start():
         pass
     root.protocol("WM_DELETE_WINDOW", passss)
     Start_Win.bind("<Alt-F4>", passss)
+    #---------get the time to countdown---------
     U_Hr_Val = Hour.get()
     U_Min_Val = Minute.get()
     U_Sec_Val = Second.get()
@@ -29,6 +33,7 @@ def Start():
     B_Min_Val = B_Minute.get()
     B_Total_Sec = B_Hr_Val * 3600 + B_Min_Val * 60
     B_Total_ms = B_Total_Sec * 1000
+    #---------countdown---------
     def countDown():
         Countdown.config(bg = "black")
         Countdown.config(fg = 'white')
@@ -41,6 +46,7 @@ def Start():
             Countdown["text"] = kk, ":", kkkk, ":",  kkkkk
             Start_Win.update()
             time.sleep(1)
+        #---------lock---------
         Start_Win.overrideredirect(False)
         Start_Win.attributes("-topmost", True)
         Start_Win.attributes("-fullscreen", True)
@@ -48,22 +54,23 @@ def Start():
         Countdown.config(fg = 'white')
         Countdown["text"] = "It's time to take a break!"
         Start_Win.overrideredirect(True)
+        #---------play beep sound---------
         pygame.mixer.init()
         pygame.mixer.music.load("End_Sound.mp3")
         pygame.mixer.music.play()
-    
+    #---------start the countdown window---------
     Start_Win.title("Countdown")
     Countdown = Label(Start_Win)
     Countdown.pack(fill = BOTH, expand = 1)
     countDown()
     Start_Win.after(B_Total_ms, Start_Win.destroy)
-
+#---------set the root window text---------
 Space_1 = Label(root, text = " ", font = "微軟正黑體 10")
 Space_1.pack()
 
 Use_Time_text = Label(root, text = "Use Time", font = "微軟正黑體 15")
 Use_Time_text.pack()
-
+#---------set the root window scale---------
 Hour = Scale(orient = HORIZONTAL, width = 15, length = 150)
 Hour.config(from_ = 0, to = 5)
 Hour.config(showvalue = 1, tickinterval = 1, resolution = 1)
@@ -113,5 +120,5 @@ Space_4.pack()
 
 Start_but = Button(root, text = "Start", font = "微軟正黑體 10", command = Start)
 Start_but.pack()
-
+#---------make the window run---------
 root.mainloop()
